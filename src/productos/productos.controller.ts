@@ -24,6 +24,4 @@ export class ProductosController {
   findOne(@Param('id', ParseIntPipe) id: number): Producto {
     return this.productosService.findOne(id);
   }
-
-
 }
