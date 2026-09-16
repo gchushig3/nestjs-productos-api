@@ -2,27 +2,29 @@ name: CI/CD - Validar y Desplegar a Render
 
 on:
   push:
-    branches: [ master ] # Ejecuta automáticamente cada vez que haces push a la rama master
+    branches: [master]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar código
+      - name: Descargar codigo
         uses: actions/checkout@v4
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
 
       - name: Instalar dependencias
         run: npm ci
 
-      - name: Generar Prisma y Compilar
-        run: npm run build
+      - name: Generar Prisma y compilar
+        run: |
+          npx prisma generate
+          npm run build
 
       - name: Notificar a Render para publicar
         run: curl --fail --silent --show-error --request POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
