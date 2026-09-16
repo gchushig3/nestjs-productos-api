@@ -33,3 +33,38 @@ jobs:
       # 5. Si todo compiló con éxito, avisar a Render para que publique usando el Deploy Hook
       - name: Notificar a Render para publicar
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+name: CI/CD - Validar y Desplegar a Render
+
+on:
+  push:
+    branches: [ main ] # Ejecuta cada vez que subes cambios a la rama main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Obtener el código del repositorio
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      # 2. Configurar el entorno de Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 3. Instalar dependencias del proyecto
+      - name: Instalar dependencias
+        run: npm ci
+
+      # 4. Generar el cliente de Prisma y Compilar el proyecto (Empaquetado)
+      - name: Generar Prisma y Compilar
+        run: |
+          npx prisma generate
+          npm run build
+
+      # 5. Si todo compiló con éxito, avisar a Render para que publique usando el Deploy Hook
+      - name: Notificar a Render para publicar
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
