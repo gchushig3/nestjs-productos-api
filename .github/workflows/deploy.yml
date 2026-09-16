@@ -2,7 +2,11 @@ name: CI/CD - Validar y Desplegar a Render
 
 on:
   push:
+<<<<<<< HEAD
     branches: [ master ] # O usa [ main ] según el nombre de tu rama principal
+=======
+    branches: [master]
+>>>>>>> 177da99 (fix: corregir workflow de despliegue)
 
 jobs:
   build-and-deploy:
@@ -21,10 +25,18 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
+<<<<<<< HEAD
       - name: Generar Prisma y Compilar
         run: |
           npx prisma generate
           npm run build
 
+=======
+      # 4. Compilar el proyecto
+      - name: Compilar
+        run: npm run build
+
+      # 5. Si todo compiló con éxito, avisar a Render para que publique usando el Deploy Hook
+>>>>>>> 177da99 (fix: corregir workflow de despliegue)
       - name: Notificar a Render para publicar
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
