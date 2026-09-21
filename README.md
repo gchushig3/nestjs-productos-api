@@ -63,11 +63,11 @@ $ npm run test:cov
 
 Configura un servicio web de Render con estos valores:
 
-- **Build Command:** `npm ci && npm run db:migrate && npm run build`
+- **Build Command:** `npm ci && npm run build`
 - **Start Command:** `npm run start:prod`
 - **Environment:** `DATABASE_URL` con la URL interna de la base PostgreSQL de Render
 
-Las migraciones versionadas se encuentran en `prisma/migrations` y se aplican durante el build. No guardes `DATABASE_URL` ni la URL del Deploy Hook en el repositorio.
+La aplicación usa PostgreSQL 16 mediante TypeORM. Configura `DATABASE_URL` y `TYPEORM_SYNCHRONIZE` en el entorno de ejecución; no guardes credenciales ni la URL del Deploy Hook en el repositorio.
 
 El workflow de GitHub valida el build y llama al Deploy Hook mediante el secreto `RENDER_DEPLOY_HOOK_URL`. En Render, habilita el despliegue automático desde ese hook y no necesitas usar Pages.
 

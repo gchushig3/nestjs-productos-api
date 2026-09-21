@@ -21,10 +21,8 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
-      - name: Generar Prisma y compilar
-        run: |
-          npx prisma generate
-          npm run build
+      - name: Compilar
+        run: npm run build
 
       - name: Notificar a Render para publicar
         run: curl --fail --silent --show-error --request POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
